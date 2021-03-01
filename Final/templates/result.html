@@ -40,31 +40,30 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="text-container">
-                    <h2>CHURN PREDICTION FOR :</h2>
-                        <p>From your input before, this is result from calculation and prediction how many people that will stay or leave the job</p>
+                    <h2>HR PREDICTION FOR :</h2>
+                        <p>From your input before, this is result from calculation and prediction people that will stay or leave the Commpany</p>
                 </div> <!-- end of text-container -->
             </div> <!-- end of col -->
             <div class="col-lg-6">
                 <div class="text-container">
                     <div class="form-group">
-                        <b>City: </b> {{city}}<br>
-                        <b>City Development Index : </b> {{city_development_index}}<br>
-                        <b>Gender: </b> {{gender}}<br>
-                        <b>Relevent Experience: </b> {{relevent_experience}}<br>
-                        <b>Enrolled University: </b> {{enrolled_university}}<br>
-                        <b>Education Level: </b> {{education_level}}<br>
-                        <b>Major Discipline: </b> {{major_discipline}}<br>
-                        <b>Experience: </b> {{experience}}<br>
-                        <b>Company Size: </b> {{company_size}}<br>
-                        <b>Company Type: </b> {{company_type}}<br>
-                        <b>Last New Job: </b> {{last_new_job}}<br>
-                        <b>Training Hours: </b> {{training_hours}}<br>
+                        <b>City: </b> {{data['city']}}<br>
+                        <b>City Development Index : </b> {{data['city_development_index']}}<br>
+                        <b>Gender: </b> {{data['gender']}}<br>
+                        <b>Relevent Experience: </b> {{data['relevent_experience']}}<br>
+                        <b>Enrolled University: </b> {{data['enrolled_university']}}<br>
+                        <b>Education Level: </b> {{data['education_level']}}<br>
+                        <b>Major Discipline: </b> {{data['major_discipline']}}<br>
+                        <b>Experience: </b> {{data['experience']}}<br>
+                        <b>Company Size: </b> {{data['company_size']}}<br>
+                        <b>Company Type: </b> {{data['company_type']}}<br>
+                        <b>Last New Job: </b> {{data['last_new_job']}}<br>
+                        <b>Training Hours: </b> {{data['training_hours']}}<br>
                     </div>
                     <div class="p1">
-                        The Result is...
+                        The Result is {{pred}}
                     </div>
-                    <div class="p2">
-                        <label for="result">{{proba}}% {{result}}</label></div>
+
                     <hr>
                     <div class="form-group col-lg-12">
                         <a href="http://localhost:1212/predict" target="_self" >
