@@ -1,7 +1,6 @@
 from flask import Flask, render_template, url_for, request, send_from_directory
 import numpy as np
 import pandas as pd
-import folium
 import joblib
 
 # translate Flask to python object
@@ -26,57 +25,35 @@ def statistic():
 def result():
     if request.method == "POST":
        input = request.form
-       city = int(input['city'])
-       city_development_index = float(input['city_development_index'])
-       gender = int(input['gender'])
-       relevent_experience = int(input['relevent_experience'])
-       enrolled_university = int(input['enrolled_university'])
-       education_level = int(input['education_level'])
-       major_discipline = int(input['major_discipline'])   
-       experience = int(input['experience'])
-       company_size = int(input['company_size'])
-       company_type = int(input['company_type'])
-       last_new_job = int(input['last_new_job']) 
-       training_hours = int(input['training_hours'])   
+
+       df = pd.DataFrame({
+           'city':[input['city']],
+           'city_development_index':[input['city_development_index']],
+           'gender':[input['gender']],
+           'relevent_experience':[input['relevent_experience']],
+           'enrolled_university':[input['enrolled_university']],
+           'education_level':[input['education_level']],
+           'major_discipline':[input['major_discipline']],
+           'experience':[input['experience']],
+           'company_size':[input['company_size']],
+           'company_type':[input['company_type']],
+           'last_new_job':[input['last_new_job']],
+           'training_hours':[input['training_hours']],
+       })
        
-       df_predicts = pd.DataFrame({city : int(input['city']),
-       city_development_index : float(input['city_development_index']),
-       gender : int(input['gender']),
-       relevent_experience : int(input['relevent_experience']),
-       enrolled_university : int(input['enrolled_university']),
-       education_level : int(input['education_level']),
-       major_discipline : int(input['major_discipline']),  
-       experience : int(input['experience']),
-       company_size : int(input['company_size']),
-       company_type : int(input['company_type']),
-       last_new_job : int(input['last_new_job']), 
-       training_hours : int(input['training_hours'])},index=[0])  
        
     model = joblib.load("ModelJoblib")
 
-    data_pred = pd.DataFrame(data = [[city,city_development_index,gender,relevent_experience,enrolled_university,education_level,
-    major_discipline,experience,experience,company_size,company_type,last_new_job,training_hours]],
-    columns = ['city','city_development_index','gender','relevent_experience','enrolled_university','education_level',
-    'major_discipline','experience','experience','company_size','company_type','last_new_job','training_hours'])
+    prediksi = model.predict_proba(df)
 
-    prediksi = model.predict(df_predicts)
-    pred = prediksi[0]
+    if prediksi[0][1] < 0.5:
+        result = 'NOPE!! Tidak Mencari Pekerjaan Baru'
+        return render_template('result.html', data=input, pred=result,hasil=prediksi)
+        
+    else:
+        result = 'YUP!! Akan Mnecari Pekerjaan Baru'
+        return render_template('result.html', data=input, pred=result,hasil=prediksi)   
 
-    return render_template('result.html', 
-        city = city,
-        city_development_index= city_development_index,
-        gender= gender,
-        relevent_experience = relevent_experience,
-        enrolled_university = enrolled_university,
-        education_level = education_level,
-        major_discipline = major_discipline,
-        experience = experience,
-        company_size = company_size,
-        company_type = company_type,
-        last_new_job = last_new_job,
-        training_hours = training_hours,
-        pred = (np.expm1(pred).round(2))
-        )
 
 if __name__ == '__main__':
     model = joblib.load("ModelJoblib")
