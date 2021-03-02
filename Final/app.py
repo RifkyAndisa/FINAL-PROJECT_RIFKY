@@ -51,7 +51,7 @@ def result():
         return render_template('result.html', data=input, pred=result,hasil=prediksi)
         
     else:
-        result = 'YUP!! Akan Mnecari Pekerjaan Baru'
+        result = 'YUP!! Akan Mencari Pekerjaan Baru'
         return render_template('result.html', data=input, pred=result,hasil=prediksi)   
 
 
